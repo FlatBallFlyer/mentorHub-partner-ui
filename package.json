@@ -7,7 +7,7 @@
     "build": "run-p type-check \"build-only {@}\" --",
     "preview": "vite preview",
     "preserve": "mh up person-api",
-    "dev": "vite --port 8083",
+    "serve": "vite --port 8083",
     "build-only": "vite build",
     "test:unit": "vitest",
     "test:e2e": "start-server-and-test preview http://localhost:4173 'cypress run --e2e'",
