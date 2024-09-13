@@ -1,30 +1,73 @@
-# <<TODO:domain>>-<<TODO:component>>
+# mentorhub-partner-ui
 
-This is repository contains <<TODO:service-description>>
+This is repository contains a Vue SPA that uses [this](https://github.com/agile-learning-institute/mentorhub-partner-api) API.
 
-[Here](https://github.com/orgs/agile-learning-institute/repositories?q=mentorhub-&type=all&sort=name) are all of the repositories in the [mentorHub](https://github.com/agile-learning-institute/mentorhub/tree/main) system
+[Here](https://github.com/orgs/agile-learning-institute/repositories?q=institute&type=all&sort=name) are all of the repositories in the [Institute](https://github.com/agile-learning-institute/institute/tree/main) system
 
 ## Prerequisites
 
-- [Docker Desktop](https://www.docker.com/products/docker-desktop/)
-- TODO: Additional Prerequisites
+- [mentorHub Developer Edition](https://github.com/agile-learning-institute/mentorHub/blob/main/mentorHub-developer-edition/README.md)
+- [NodeJS and NPM](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm) - if you want to build locally
 
-## Contributing
+## Running Locally
 
-Instructions on how to contribute, how to install dependencies and run locally. Including how to run backing services locally.
-
-## Build and test the container
-
-Use the following command to build and run the container locally. See [here for details](https://github.com/agile-learning-institute/mentorhub/blob/main/docker-compose/README.md) on how to stop/start the database.
+To run the full UI and backing services locally
 
 ```bash
-../src/docker/docker-build.sh
+mh up partner
 ```
 
-After that command completes successfully you can verify it worked successfully by
+## Install Dependencies
 
-- TODO: Describe functional baseline tests
+``` bash
+npm install
+```
 
-## Refactors and Enhancements
+## Live Serve the UI Locally
 
-- [ ] To Be Documented
+```bash
+npm run serve
+```
+
+This will start API and backing service containers to support testing.
+
+## Lints and fixes files
+
+``` bash
+npm run lint
+```
+
+## Build a production deployment package
+
+``` bash
+npm run build
+```
+
+## Build and test the UI container
+
+``` bash
+npm run container
+```
+
+This will build the UI container and launch the UI service. After launched you can the access Paths below
+
+## Access Paths
+
+After running the appropiate command, you can access the API following routes
+
+- Admin Screen [http://localhost:8083/admin](http://localhost:8083/admin)
+- Default [http://localhost:8083/](http://localhost:8083/) routes to List Partners
+
+You can also access the List, Add and Edit views directly at
+
+- List Partners [http://localhost:8083/partners](http://localhost:8083/partners)
+- Add Partner [http://localhost:8083/partner](http://localhost:8083/partner)
+- Edit Partner [http://localhost:8083/partner/aaaa00000000000000000021](http://localhost:8083/partner/aaaa00000000000000000021)
+
+NOTE: After you add a partner you are automatically routed to the Edit Partner page for that partner. You can change the ID in the Edit Partner URI to edit other partners.
+
+## Observability and configuration
+
+The ```/admin``` route will return a list of configuration values.
+
+The Dockerfile uses a 2-stage build, and supports multi-architecture builds. See [docker-build.sh](./src/docker/docker-build.sh) for details about building in the local architecture for testing.
