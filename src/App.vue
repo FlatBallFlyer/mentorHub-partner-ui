@@ -1,21 +1,26 @@
-<script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
-import HomeView from './views/HomeView.vue';
-</script>
-
 <template>
-  <header>
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-      <HomeView />
-    </div>
-  </header>
+  <router-view />
 </template>
 
 <style scoped>
-header {
-  line-height: 1.5;
-  max-height: 100vh;
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+}
+
+nav {
+  padding: 30px;
+}
+
+nav a {
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+nav a.router-link-exact-active {
+  color: #42b983;
 }
 </style>
