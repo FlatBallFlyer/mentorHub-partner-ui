@@ -6,16 +6,16 @@
   "scripts": {
     "build": "run-p type-check \"build-only {@}\" --",
     "preview": "vite preview",
-    "preserve": "mh up person-api",
-    "serve": "vite --port 8083",
+    "preserve": "mh up partner-api",
+    "serve": "vite --port 8085",
     "build-only": "vite build",
     "test:unit": "vitest",
     "test:e2e": "start-server-and-test preview http://localhost:4173 'cypress run --e2e'",
     "test:e2e:dev": "start-server-and-test 'vite dev --port 4173' http://localhost:4173 'cypress open --e2e'",
     "type-check": "vue-tsc --build --force",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
-    "precontainer": "docker build --tag ghcr.io/agile-learning-institute/mentorhub-person-ui:latest .",
-    "container": "mh up person",
+    "precontainer": "docker build --tag ghcr.io/agile-learning-institute/mentorhub-partner-ui:latest .",
+    "container": "mh up partner",
     "down": "mh down"
   },
   "dependencies": {
