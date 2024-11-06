@@ -55,14 +55,14 @@ This will build the UI container and launch the UI service. After launched you c
 
 After running the appropiate command, you can access the API following routes
 
-- Admin Screen [http://localhost:8083/admin](http://localhost:8083/admin)
-- Default [http://localhost:8083/](http://localhost:8083/) routes to List Partners
+- Admin Screen [http://localhost:8085/admin](http://localhost:8085/admin)
+- Default [http://localhost:8085/](http://localhost:8085/) routes to List Partners
 
 You can also access the List, Add and Edit views directly at
 
-- List Partners [http://localhost:8083/partners](http://localhost:8083/partners)
-- Add Partner [http://localhost:8083/partner](http://localhost:8083/partner)
-- Edit Partner [http://localhost:8083/partner/aaaa00000000000000000021](http://localhost:8083/partner/aaaa00000000000000000021)
+- List Partners [http://localhost:8085/partners](http://localhost:8085/partners)
+- Add Partner [http://localhost:8085/partner](http://localhost:8085/partner)
+- Edit Partner [http://localhost:8085/partner/aaaa00000000000000000021](http://localhost:8085/partner/aaaa00000000000000000021)
 
 NOTE: After you add a partner you are automatically routed to the Edit Partner page for that partner. You can change the ID in the Edit Partner URI to edit other partners.
 
@@ -70,4 +70,4 @@ NOTE: After you add a partner you are automatically routed to the Edit Partner p
 
 The ```/admin``` route will return a list of configuration values.
 
-The Dockerfile uses a 2-stage build, and supports multi-architecture builds. See [docker-build.sh](./src/docker/docker-build.sh) for details about building in the local architecture for testing.
+The Dockerfile uses a 2-stage build, and supports multi-architecture builds. See the [Dockerfile](./Dockerfile) for details about building in the local architecture for testing.
