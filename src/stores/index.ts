@@ -12,7 +12,7 @@ export const usePartnersStore = defineStore("partners", {
     SET_PARTNER(payload: any) {
       this.partner = payload;
       this.before = payload;
-      document.title = this.partner.userName;
+      document.title = this.partner.name;
     },
     RESET_PARTNER_VALUE(fieldName: any) {
       this.partner[fieldName] = this.before[fieldName];
@@ -39,7 +39,6 @@ export const usePartnersStore = defineStore("partners", {
       }
     },
     async getPartner(id: string) {
-      console.log("mode", import.meta.env.MODE)
       const apiUrlWithId = `/api/partner/${id}`;
 
       try {
