@@ -1,13 +1,17 @@
 <template>
-  <div>
+  <v-container>
     <h1>Edit Partner</h1>
     <v-form>
       <v-text-field label="Partner Name" @change="saveMe($event, 'partnerName')" v-model="partner.name" required></v-text-field>
+      <!-- TODO: Find out what to do with URL since api does not return it -->
+      <!-- <v-select label="URL" @update:model-value="saveMe($event, 'url')" v-model="partner.url" :items="partners.url"></v-select> -->
+      <v-text-field label="Notes" @change="saveMe($event, 'description')" :rules="[rules.descriptionCount]" v-model="partner.description"></v-text-field>
+
+      <EditContactsForm :save-me="saveMe" :rules="rules" />
 
       <v-select label="Status" @update:model-value="saveMe($event, 'status')" v-model="partner.status" :items="partners.status"></v-select>
-      <v-text-field label="Notes" @change="saveMe($event, 'description')" :rules="[rules.descriptionCount]" v-model="partner.description"></v-text-field>
     </v-form>
-  </div>
+  </v-container>
 </template>
 
 <script setup lang="ts">
@@ -15,6 +19,7 @@ import { computed, onMounted } from "vue";
 import { useRoute } from "vue-router";
 import { usePartnersStore } from "@/stores/index";
 import { storeToRefs } from "pinia";
+import EditContactsForm from "./EditContactsForm.vue";
 
 const route = useRoute();
 
@@ -22,8 +27,8 @@ const store = usePartnersStore();
 const { partner, config } = storeToRefs(store);
 const { getPartner, patchPartner } = store;
 
-const partners = computed(() => config.value?.enums ? {
-  status: Object.keys(config.value?.enums.partnerStatus),
+const partners = computed(() => config.value?.enumerators ? {
+  status: Object.keys(config.value?.enumerators.partnerStatus),
 } : {});
 
 const rules = {
