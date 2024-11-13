@@ -7,9 +7,9 @@
       <!-- <v-select label="URL" @update:model-value="saveMe($event, 'url')" v-model="partner.url" :items="partners.url"></v-select> -->
       <v-text-field label="Notes" @change="saveMe($event, 'description')" :rules="[rules.descriptionCount]" v-model="partner.description"></v-text-field>
 
-      <EditContactsForm :save-me="saveMe" :rules="rules" />
-
       <v-select label="Status" @update:model-value="saveMe($event, 'status')" v-model="partner.status" :items="partners.status"></v-select>
+
+      <EditContactsForm :save-me="saveMe" :rules="rules" />
     </v-form>
   </v-container>
 </template>

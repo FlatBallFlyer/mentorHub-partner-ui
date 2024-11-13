@@ -1,19 +1,12 @@
 <template>
   <v-container>
-    <h2>Contacts</h2>
-		<div class="mb-5 mt-5 d-flex justify-space-between">
-			<a :href="addContactLink()" target="_blank">
-				<v-btn size="large" variant="tonal" class="bg-grey-lighten-5">
-					Add New Contact
-				</v-btn>
-			</a>
-			<a :href="newPersonLink()" target="_blank">
-				<v-btn size="large" variant="tonal" class="bg-grey-lighten-5">
-					Create New Person
-				</v-btn>
-			</a>
+    <div class="mb-5 mt-5 d-flex justify-space-between">
+      <p class="text-h6">Contacts</p>
+      <v-btn variant="tonal" class="bg-grey-lighten-5" @click="toggleAddContactDialog">
+        Add New Contact
+      </v-btn>
 		</div>
-    <v-table>
+    <v-table v-if="partner.contactDetails?.length">
       <thead>
         <tr>
           <th class="text-left">First Name</th>
@@ -29,37 +22,52 @@
           <td class="text-left">{{ contact.lastName }}</td>
           <td class="text-left">{{ contact.phone }}</td>
           <td class="text-left">{{ contact.eMail }}</td>
-          <!-- TODO: Make delete feature functional -->
-          <td class="text-left"><v-btn>DELETE</v-btn></td>
+          <!-- TODO: Make remove feature functional -->
+          <td class="text-left"><v-btn @click="removePerson(contact)">REMOVE</v-btn></td>
         </tr>
       </tbody>
     </v-table>
+    <p v-else class="font-italic">{{ partner.name }} has no contacts yet...</p>
+
+    <v-dialog v-model="addContactDialog" width="auto">
+      <v-surface class="bg-white rounded-sm pa-7">
+        <AddContactForm :handle-close="toggleAddContactDialog" />
+        <v-btn @click="toggleAddContactDialog">Close</v-btn>
+      </v-surface>
+    </v-dialog>
   </v-container>
 </template>
 
 
 <script setup lang="ts">
-import { useRouter } from "vue-router";
+import { ref } from "vue";
+import { useRoute } from "vue-router";
 import { usePartnersStore } from "@/stores/index";
 import { storeToRefs } from "pinia";
+import axios from "axios";
+import AddContactForm from "@/components/AddContactForm.vue";
 
-const router = useRouter();
+const route = useRoute();
+
 const store = usePartnersStore();
 const { partner } = storeToRefs(store);
+const { getPartner } = store;
 
-defineProps<{
-  saveMe: (event: any, field: string) => void,
-  rules: any,
-}>();
+const addContactDialog = ref(false);
 
-function addContactLink() {
-  // TODO: Make add contact route
-  return router.resolve({ name: "EditPartner" }).href;
+function toggleAddContactDialog() {
+  addContactDialog.value = !addContactDialog.value;
 }
 
-function newPersonLink() {
-  // TODO: Figure out how to link to person SPA
-  return router.resolve({ name: "EditPartner" }).href;
+async function removePerson(person: any) {
+  const apiUrl = `/api/partner/${route.params.id}/contact/${person._id}`;
+      
+  try {
+    await axios.delete(apiUrl);
+    getPartner(route.params.id as string);
+  } catch (error) {
+    throw new Error(`Duplicate Name. ${error}`);
+  }
 }
 
 </script>
