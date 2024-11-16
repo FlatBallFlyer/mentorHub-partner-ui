@@ -1,18 +1,20 @@
 <template>
-  <v-container elevation="0" width="300">
+  <v-container elevation="0">
     <h2>Add Contact</h2>
 
     <v-form>
       <v-text-field label="Name" v-model="name" required></v-text-field>
-      <v-card elevation="auto" class="pa-3" style="height: 50px; overflow-y: auto;">
-        <ul v-if="name && names">
+      <v-card v-if="name && names && suggestions" elevation="0" class="suggestion-card">
+        <ul class="">
           <li
             v-for="person in suggestions"
             :key="person?._id"
+            class="pa-2 rounded-lg"
             @click="selectPerson(person)"
           >{{ person?.firstName }} {{ person?.lastName }}</li>
         </ul>
       </v-card>
+      <a :href="newPersonLink()" target="_blank"><v-btn variant="tonal" class="bg-grey-lighten-5">New Person</v-btn></a>
     </v-form>
   </v-container>
 </template>
@@ -26,7 +28,7 @@ import { usePartnersStore } from "@/stores";
 import { storeToRefs } from "pinia";
 
 const store = usePartnersStore();
-const { partner } = storeToRefs(store);
+const { config, partner } = storeToRefs(store);
 const { getPartner } = store;
 
 const route = useRoute();
@@ -36,10 +38,14 @@ const names = ref<any>(["Start typing..."]);
 const suggestions = computed(() => (
   names.value
   ?.filter((person: any) => (
-    person?.firstName?.toLocaleLowerCase().includes(name.value.toLocaleLowerCase()) ||
-    person?.lastName?.toLocaleLowerCase().includes(name.value.toLocaleLowerCase())
+    person?.firstName?.toLocaleLowerCase().match(new RegExp(`^${name.value.toLocaleLowerCase()}`)) ||
+    person?.lastName?.toLocaleLowerCase().match(new RegExp(`^${name.value.toLocaleLowerCase()}`))
   ))
 ))
+
+function newPersonLink() {
+  return `${config.value.configItems.filter((item: any) => item.name === "PERSON_UI_HOST")[0].value}/person`;
+}
 
 async function selectPerson(person: any) {
   const apiUrl = `/api/partner/${route.params.id}/contact/${person._id}`;
@@ -75,11 +81,30 @@ onMounted(() => {
 </script>
 
 <style scoped>
+  .suggestion-card {
+    height: 100px;
+  }
+
   ul {
     height: 100%;
-    overflow: hidden;
+    overflow-y: auto;
+    border-top: 1px solid #ddd;
+
+    &::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      /* width: 5px; */
+      background: #c5c0c0;
+      border-radius: 999px;
+    }
   }
+
   li {
     cursor: pointer;
+    &:hover {
+      background-color: #eee;
+    }
   }
 </style>

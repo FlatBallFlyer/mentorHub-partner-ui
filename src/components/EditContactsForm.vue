@@ -22,18 +22,17 @@
           <td class="text-left">{{ contact.lastName }}</td>
           <td class="text-left">{{ contact.phone }}</td>
           <td class="text-left">{{ contact.eMail }}</td>
-          <!-- TODO: Make remove feature functional -->
-          <td class="text-left"><v-btn @click="removePerson(contact)">REMOVE</v-btn></td>
+          <td class="text-left"><v-btn @click="removePerson(contact)" icon="mdi-delete" variant="plain"></v-btn></td>
         </tr>
       </tbody>
     </v-table>
     <p v-else class="font-italic">{{ partner.name }} has no contacts yet...</p>
 
-    <v-dialog v-model="addContactDialog" width="auto">
-      <v-surface class="bg-white rounded-sm pa-7">
+    <v-dialog v-model="addContactDialog" max-width="400">
+      <v-sheet class="bg-white rounded-sm pa-7">
         <AddContactForm :handle-close="toggleAddContactDialog" />
-        <v-btn @click="toggleAddContactDialog">Close</v-btn>
-      </v-surface>
+        <v-btn class="close-icon" @click="toggleAddContactDialog" icon="mdi-close" variant="text"></v-btn>
+      </v-sheet>
     </v-dialog>
   </v-container>
 </template>
@@ -87,6 +86,16 @@ flex: 1; /* Each item takes an equal share of the container */
 
 tbody tr:nth-of-type(odd) {
 	background-color: rgba(0, 0, 0, 0.05);
+}
+
+:has(> .close-icon) {
+  position: relative;
+}
+
+.close-icon {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
 }
 
 </style>
