@@ -5,7 +5,7 @@
     <v-form>
       <v-text-field label="Name" v-model="name" required></v-text-field>
       <v-card v-if="name && names && suggestions" elevation="0" class="suggestion-card">
-        <ul class="">
+        <ul>
           <li
             v-for="person in suggestions"
             :key="person?._id"
@@ -87,20 +87,8 @@ onMounted(() => {
 
   ul {
     height: 100%;
-    overflow-y: auto;
-    border-top: 1px solid #ddd;
-
-    &::-webkit-scrollbar {
-      width: 5px;
-    }
-
-    &::-webkit-scrollbar-thumb {
-      /* width: 5px; */
-      background: #c5c0c0;
-      border-radius: 999px;
-    }
+    overflow: hidden;
   }
-
   li {
     cursor: pointer;
     &:hover {
