@@ -2,20 +2,52 @@ import { defineStore } from "pinia";
 import axios from "axios";
 import versionInfo from "@/version.json";
 
+export interface Partner {
+  _id:	string,
+  name:	string,
+  description:	string,
+  status:	[ "Active", "Inactive", "Archived" ],
+  url:	string,
+  contactDetails:	{
+    firstName:	string,
+    lastName:	string,
+    phone:	string,
+    eMail:	string,
+  }[],
+  lastSaved:	{
+    fromIp: string,
+    byUser: string,
+    atTime: string,
+    correlationId: string,
+  }
+}
+
+interface PartnerState {
+  config: any,
+  partner: Partner,
+  before: Partner,
+}
+
 export const usePartnersStore = defineStore("partners", {
   state: () => ({
-    config: {} as any,
-    partner: {} as any,
-    before: {} as any,
-  }),
+    config: {},
+    partner: {},
+    before: {},
+  } as PartnerState),
   actions: {
     SET_PARTNER(payload: any) {
       this.partner = payload;
       this.before = payload;
       document.title = this.partner.name;
     },
-    RESET_PARTNER_VALUE(fieldName: any) {
-      this.partner[fieldName] = this.before[fieldName];
+    RESET_PARTNER_VALUE(fieldName: keyof Partner) {
+      if (
+        // @ts-expect-error
+        Object.hasOwn(this.partner, fieldName) 
+        // @ts-expect-error
+        && Object.hasOwn(this.before, fieldName)
+        // @ts-expect-error
+      ) this.partner[fieldName] = this.before[fieldName];
     },
     async initializeStore() {
       const configUrl = `/api/config/`;
@@ -72,6 +104,16 @@ export const usePartnersStore = defineStore("partners", {
         this.SET_PARTNER(response.data);
         console.log("response", response.data)
         return response.data;
+      } catch (error) {
+        throw new Error(`Duplicate Name. ${error}`);
+      }
+    },
+    async selectPerson(person: any, partner?: any) {
+      const apiUrl = `/api/partner/${partner?._id || this.partner?._id}/contact/${person._id}`;
+          
+      try {
+        await axios.post(apiUrl);
+        this.getPartner(this.partner._id);
       } catch (error) {
         throw new Error(`Duplicate Name. ${error}`);
       }

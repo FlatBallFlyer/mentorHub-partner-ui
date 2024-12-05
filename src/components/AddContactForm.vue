@@ -10,11 +10,11 @@
             v-for="person in suggestions"
             :key="person?._id"
             class="pa-2 rounded-lg"
-            @click="selectPerson(person)"
+            @click="selectPerson(person); name = ''"
           >{{ person?.firstName }} {{ person?.lastName }}</li>
         </ul>
       </v-card>
-      <a :href="newPersonLink()" target="_blank"><v-btn variant="tonal" class="bg-grey-lighten-5">New Person</v-btn></a>
+      <v-btn tag="a" :href="newPersonLink" target="_blank" rel="noopener noreferrer" variant="tonal" class="bg-grey-lighten-5">New Person</v-btn>
     </v-form>
   </v-container>
 </template>
@@ -22,16 +22,13 @@
 
 <script setup lang="ts">
 import { computed, onMounted, ref } from "vue";
-import { useRoute } from "vue-router";
 import axios from "axios";
 import { usePartnersStore } from "@/stores";
 import { storeToRefs } from "pinia";
 
 const store = usePartnersStore();
 const { config, partner } = storeToRefs(store);
-const { getPartner } = store;
-
-const route = useRoute();
+const { selectPerson } = store;
 
 const name = ref("");
 const names = ref<any>(["Start typing..."]);
@@ -41,23 +38,9 @@ const suggestions = computed(() => (
     person?.firstName?.toLocaleLowerCase().match(new RegExp(`^${name.value.toLocaleLowerCase()}`)) ||
     person?.lastName?.toLocaleLowerCase().match(new RegExp(`^${name.value.toLocaleLowerCase()}`))
   ))
-))
+));
 
-function newPersonLink() {
-  return `${config.value.configItems.filter((item: any) => item.name === "PERSON_UI_HOST")[0].value}/person`;
-}
-
-async function selectPerson(person: any) {
-  const apiUrl = `/api/partner/${route.params.id}/contact/${person._id}`;
-      
-  try {
-    await axios.post(apiUrl);
-    getPartner(route.params.id as string);
-    name.value = "";
-  } catch (error) {
-    throw new Error(`Duplicate Name. ${error}`);
-  }
-}
+const newPersonLink = computed(() => `${config.value.configItems.find((item: any) => item.name === "PERSON_UI_HOST").value}/person?partner_id=${partner.value._id}`);
 
 async function getPeople() {
   const apiUrl = `/api/people/`;
