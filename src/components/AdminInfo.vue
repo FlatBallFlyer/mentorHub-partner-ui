@@ -28,7 +28,6 @@ import AdminCollections from '@/components/AdminCollections.vue';
 import AdminConfigItems from '@/components/AdminConfigItems.vue';
 import AdminEnumerators from '@/components/AdminEnumerators.vue';
 
-
 const store = usePartnersStore();
 const { config } = storeToRefs(store);
 

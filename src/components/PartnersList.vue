@@ -2,12 +2,12 @@
 	<v-container>
 		<h1 class="text-left">Partners</h1>
 		<div class="mb-5 mt-5 d-flex justify-space-between">
-			<a :href="newPartnerLink()" target="_blank">
+			<a :href="newPartnerLink" target="_blank">
 				<v-btn size="large" variant="tonal" class="bg-grey-lighten-5">
 					Add New Partner
 				</v-btn>
 			</a>
-			<a :href="adminLink()" target="_blank">
+			<a :href="adminLink" target="_blank">
 				<v-btn size="large" variant="tonal" class="bg-grey-lighten-5">
 					Admin
 				</v-btn>
@@ -34,59 +34,42 @@
 	</v-container>
 </template>
 
-<script>
-import axios from "axios";
+<script setup lang="ts">
+import { computed, onBeforeMount, onMounted, ref } from 'vue';
+import { useRouter } from 'vue-router';
+import { usePartnersStore } from "@/stores/index";
 
-export default {
-	data() {
-		return {
-			partners: [],
-		};
-	},
-	mounted() {
-		document.title = "Partners";
-		this.getData(); // Call getData() when the component is mounted
-		document.addEventListener("visibilitychange", this.handleVisibilityChange);
-	},
-	beforeUnmount() {
-		document.removeEventListener(
-			"visibilitychange",
-			this.handleVisibilityChange
-		);
-	},
-	methods: {
-		handleVisibilityChange() {
-			if (document.visibilityState === "visible") {
-				this.getData();
-			}
-		},
-		async getData() {
-			const apiUrl = `/api/partner/`;
+const store = usePartnersStore();
+const { getPartners } = store;
 
-			try {
-				// create parameter to prevent cache on flat API calls
-				const params = { params: { _: new Date().getTime() } };
-				const apiResponse = await axios.get(apiUrl, params);
-				this.partners = apiResponse.data;
-			} catch (error) {
-				console.log("Error:", error);
-				console.error("An error occurred:", error);
-			}
-		},
-		newPartnerLink() {
-			return this.$router.resolve({ name: "AddPartner" }).href;
-		},
-		editPartnerLink(id) {
-			// Generate the link for EditPartner route
-			return this.$router.resolve({ name: "EditPartner", params: { id: id } })
-				.href;
-		},
-		adminLink() {
-			// Generates link for Admin route
-			return this.$router.resolve({ name: "Admin" }).href;
-		},
-	},
-};
+const router = useRouter();
+const partners = ref();
+const newPartnerLink = computed(() => router.resolve({ name: "AddPartner" }).href);
+const adminLink = computed(() => router.resolve({ name: "Admin" }).href);
+
+onMounted(async () => {
+	document.title = "Partners";
+	partners.value = await getPartners();
+	document.addEventListener("visibilitychange", handleVisibilityChange);
+});
+
+onBeforeMount(() => {
+	document.removeEventListener(
+		"visibilitychange",
+		handleVisibilityChange
+	);
+});
+
+function handleVisibilityChange() {
+	if (document.visibilityState === "visible") {
+		getPartners();
+	}
+}
+
+function editPartnerLink(id: any) {
+	// Generate the link for EditPartner route
+	return router.resolve({ name: "EditPartner", params: { id: id } }).href;
+}
 </script>
 
 <style scoped>

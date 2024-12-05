@@ -32,12 +32,6 @@ const { properties, collectionName } = defineProps<{
   properties: Record<any, any>,
   collectionName: string
 }>()
-
-// function isObject (value: any) {
-//   return (
-//     typeof value === "object" && value !== null && !Array.isArray(value)
-//   );
-// }
 </script>
 
 <style scoped>

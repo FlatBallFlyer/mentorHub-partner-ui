@@ -22,13 +22,12 @@
 
 <script setup lang="ts">
 import { computed, onMounted, ref } from "vue";
-import axios from "axios";
 import { usePartnersStore } from "@/stores";
 import { storeToRefs } from "pinia";
 
 const store = usePartnersStore();
 const { config, partner } = storeToRefs(store);
-const { selectPerson } = store;
+const { selectPerson, getPeople } = store;
 
 const name = ref("");
 const names = ref<any>(["Start typing..."]);
@@ -40,25 +39,12 @@ const suggestions = computed(() => (
   ))
 ));
 
-const newPersonLink = computed(() => `${config.value.configItems.find((item: any) => item.name === "PERSON_UI_HOST").value}/person?partner_id=${partner.value._id}`);
+const newPersonLink = computed(() => `${
+  config.value.configItems.find((item: any) => item.name === "PERSON_UI_HOST").value
+}/person?partner_id=${partner.value._id}`);
 
-async function getPeople() {
-  const apiUrl = `/api/people/`;
-  const partnerContacts = partner.value?.contactDetails?.map((contact: any) => contact._id);
-
-  try {
-    // create parameter to prevent cache on flat API calls
-    const params = { params: { _: new Date().getTime() } };
-    const apiResponse = await axios.get(apiUrl, params);
-    names.value = apiResponse.data?.filter((person: any) => !partnerContacts.includes(person._id));
-  } catch (error) {
-    console.log("Error:", error);
-    console.error("An error occurred:", error);
-  }
-}
-
-onMounted(() => {
-  getPeople();
+onMounted(async () => {
+  names.value = await getPeople();
 })
 
 </script>

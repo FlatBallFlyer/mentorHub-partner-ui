@@ -18,13 +18,13 @@ import { useRouter } from "vue-router";
 const router = useRouter();
 const store = usePartnersStore();
 const { partner } = storeToRefs(store);
+const { postPartner } = store;
 
 onMounted(() => { document.title = "New Partner" })
 
 async function newPartner() {      
   try {
-    const response = await store.postPartner();
-    console.log("response", response);
+    const response = await postPartner();
     router.push({ name: "EditPartner", params: { id: response._id } });
   } catch (error: any) {
     alert(error.message);

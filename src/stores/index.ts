@@ -70,6 +70,19 @@ export const usePartnersStore = defineStore("partners", {
         console.error("An error occurred:", error);
       }
     },
+    async getPartners() {
+			const apiUrl = `/api/partner/`;
+
+			try {
+				// create parameter to prevent cache on flat API calls
+				const params = { params: { _: new Date().getTime() } };
+				const apiResponse = await axios.get(apiUrl, params);
+				return apiResponse.data;
+			} catch (error) {
+				console.log("Error:", error);
+				console.error("An error occurred:", error);
+			}
+    },
     async getPartner(id: string) {
       const apiUrlWithId = `/api/partner/${id}`;
 
@@ -116,6 +129,30 @@ export const usePartnersStore = defineStore("partners", {
         this.getPartner(this.partner._id);
       } catch (error) {
         throw new Error(`Duplicate Name. ${error}`);
+      }
+    },
+    async getPeople() {
+      const apiUrl = `/api/people/`;
+      const partnerContacts = this.partner?.contactDetails?.map((contact: any) => contact._id);
+    
+      try {
+        // create parameter to prevent cache on flat API calls
+        const params = { params: { _: new Date().getTime() } };
+        const apiResponse = await axios.get(apiUrl, params);
+        return apiResponse.data?.filter((person: any) => !partnerContacts.includes(person._id));
+      } catch (error) {
+        console.log("Error:", error);
+        console.error("An error occurred:", error);
+      }
+    },
+    async removePerson(person: any, partner?: any) {
+      const apiUrl = `/api/partner/${partner?._id || this.partner?._id}/contact/${person._id}`;
+
+      try {
+        await axios.delete(apiUrl);
+        this.getPartner(partner?._id || this.partner?._id);
+      } catch (error) {
+        throw new Error(`${error}`);
       }
     }
   }

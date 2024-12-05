@@ -17,7 +17,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="contact in partner.contactDetails" :key="contact._id">
+        <tr v-for="contact in partner.contactDetails" :key="contact.eMail">
           <td class="text-left">{{ contact.firstName }}</td>
           <td class="text-left">{{ contact.lastName }}</td>
           <td class="text-left">{{ contact.phone }}</td>
@@ -40,33 +40,18 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import { useRoute } from "vue-router";
 import { usePartnersStore } from "@/stores/index";
 import { storeToRefs } from "pinia";
-import axios from "axios";
 import AddContactForm from "@/components/AddContactForm.vue";
-
-const route = useRoute();
 
 const store = usePartnersStore();
 const { partner } = storeToRefs(store);
-const { getPartner } = store;
+const { removePerson } = store;
 
 const addContactDialog = ref(false);
 
 function toggleAddContactDialog() {
   addContactDialog.value = !addContactDialog.value;
-}
-
-async function removePerson(person: any) {
-  const apiUrl = `/api/partner/${route.params.id}/contact/${person._id}`;
-      
-  try {
-    await axios.delete(apiUrl);
-    getPartner(route.params.id as string);
-  } catch (error) {
-    throw new Error(`Duplicate Name. ${error}`);
-  }
 }
 
 </script>

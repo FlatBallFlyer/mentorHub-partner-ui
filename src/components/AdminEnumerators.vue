@@ -9,7 +9,7 @@
 				>
 					<EnumDropdownItem
 						v-if="shouldBeDisplayed(collectionName)"
-						:collectionName="collectionName as unknown as string"
+						:collectionName="(collectionName as unknown as string)"
 						:properties="properties"
 					/>
 				</div>
