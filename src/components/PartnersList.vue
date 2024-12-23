@@ -2,12 +2,12 @@
 	<v-container>
 		<h1 class="text-left">Partners</h1>
 		<div class="mb-5 mt-5 d-flex justify-space-between">
-			<a :href="newPartnerLink" target="_blank">
+			<a :href="newPartnerLink">
 				<v-btn size="large" variant="tonal" class="bg-grey-lighten-5">
 					Add New Partner
 				</v-btn>
 			</a>
-			<a :href="adminLink" target="_blank">
+			<a :href="adminLink">
 				<v-btn size="large" variant="tonal" class="bg-grey-lighten-5">
 					Admin
 				</v-btn>
@@ -24,8 +24,7 @@
 				<tr v-for="partner in partners" :key="partner.ID">
 					<td class="text-left">{{ partner.name }}</td>
 					<td class="text-left">
-						<v-btn :href="editPartnerLink(partner._id)" target="_blank"
-							>Edit</v-btn
+						<v-btn :href="editPartnerLink(partner._id)">Edit</v-btn
 						>
 					</td>
 				</tr>

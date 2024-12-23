@@ -42,9 +42,7 @@ export const usePartnersStore = defineStore("partners", {
     },
     RESET_PARTNER_VALUE(fieldName: keyof Partner) {
       if (
-        // @ts-expect-error
-        Object.hasOwn(this.partner, fieldName) 
-        // @ts-expect-error
+        Object.hasOwn(this.partner, fieldName)
         && Object.hasOwn(this.before, fieldName)
         // @ts-expect-error
       ) this.partner[fieldName] = this.before[fieldName];

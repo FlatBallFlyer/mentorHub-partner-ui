@@ -14,7 +14,7 @@
           >{{ person?.firstName }} {{ person?.lastName }}</li>
         </ul>
       </v-card>
-      <v-btn tag="a" :href="newPersonLink" target="_blank" rel="noopener noreferrer" variant="tonal" class="bg-grey-lighten-5">New Person</v-btn>
+      <v-btn tag="a" :href="newPersonLink" variant="tonal" class="bg-grey-lighten-5">New Person</v-btn>
     </v-form>
   </v-container>
 </template>
