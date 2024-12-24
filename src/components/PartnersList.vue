@@ -2,16 +2,12 @@
 	<v-container>
 		<h1 class="text-left">Partners</h1>
 		<div class="mb-5 mt-5 d-flex justify-space-between">
-			<a :href="newPartnerLink">
-				<v-btn size="large" variant="tonal" class="bg-grey-lighten-5">
-					Add New Partner
-				</v-btn>
-			</a>
-			<a :href="adminLink">
-				<v-btn size="large" variant="tonal" class="bg-grey-lighten-5">
-					Admin
-				</v-btn>
-			</a>
+			<v-btn tag="a" :href="newPartnerLink" size="large" variant="tonal" class="bg-grey-lighten-5">
+				Add New Partner
+			</v-btn>
+			<v-btn tag="a" :href="adminLink" size="large" variant="tonal" class="bg-grey-lighten-5">
+				Admin
+			</v-btn>
 		</div>
 		<v-table>
 			<thead>

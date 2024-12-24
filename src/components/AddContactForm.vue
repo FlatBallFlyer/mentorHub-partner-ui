@@ -1,20 +1,23 @@
 <template>
-  <v-container elevation="0">
-    <h2>Add Contact</h2>
+  <v-container elevation="0" class="overflow-hidden position-relative popup-container">
+    <h2 class="">Add Contact</h2>
 
-    <v-form>
-      <v-text-field label="Name" v-model="name" required></v-text-field>
-      <v-card v-if="name && names && suggestions" elevation="0" class="suggestion-card">
+    <v-form @submit.prevent class="">
+      <v-text-field tabindex="0" label="Name" v-model="name" required></v-text-field>
+      <v-card v-if="name && suggestions.length > 0" elevation="1" class="suggestion-card position-absolute bg-white">
         <ul>
           <li
+            tabindex="0"
             v-for="person in suggestions"
             :key="person?._id"
-            class="pa-2 rounded-lg"
+            class="pa-2"
+            @keypress.enter="selectPerson(person); name = ''"
             @click="selectPerson(person); name = ''"
           >{{ person?.firstName }} {{ person?.lastName }}</li>
         </ul>
       </v-card>
-      <v-btn tag="a" :href="newPersonLink" variant="tonal" class="bg-grey-lighten-5">New Person</v-btn>
+      <p :class="`my-5 font-italic text-medium-emphasis${name && suggestions.length > 0 ? ' opacity-0' : ''}`">Start typing to see suggestions...</p>
+      <v-btn tag="a" :href="newPersonLink" variant="tonal" class="bg-grey-lighten-5 mt-4">New Person</v-btn>
     </v-form>
   </v-container>
 </template>
@@ -30,7 +33,7 @@ const { config, partner } = storeToRefs(store);
 const { selectPerson, getPeople } = store;
 
 const name = ref("");
-const names = ref<any>(["Start typing..."]);
+const names = ref<any>([]);
 const suggestions = computed(() => (
   names.value
   ?.filter((person: any) => (
@@ -51,7 +54,10 @@ onMounted(async () => {
 
 <style scoped>
   .suggestion-card {
-    height: 100px;
+    max-height: 120px;
+    width: calc(100% - 32px);
+    overflow-y: auto;
+    z-index: 10;
   }
 
   ul {
@@ -64,4 +70,5 @@ onMounted(async () => {
       background-color: #eee;
     }
   }
+
 </style>
