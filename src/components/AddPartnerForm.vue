@@ -12,15 +12,12 @@
 <script setup lang="ts">
 import { usePartnersStore } from "@/stores";
 import { storeToRefs } from "pinia";
-import { onMounted } from "vue";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
 const store = usePartnersStore();
 const { partner } = storeToRefs(store);
 const { postPartner } = store;
-
-onMounted(() => { document.title = "New Partner" })
 
 async function newPartner() {      
   try {

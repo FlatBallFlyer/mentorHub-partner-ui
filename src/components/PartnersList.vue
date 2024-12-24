@@ -43,7 +43,6 @@ const newPartnerLink = computed(() => router.resolve({ name: "AddPartner" }).hre
 const adminLink = computed(() => router.resolve({ name: "Admin" }).href);
 
 onMounted(async () => {
-	document.title = "Partners";
 	partners.value = await getPartners();
 	document.addEventListener("visibilitychange", handleVisibilityChange);
 });

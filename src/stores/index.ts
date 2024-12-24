@@ -38,7 +38,7 @@ export const usePartnersStore = defineStore("partners", {
     SET_PARTNER(payload: any) {
       this.partner = payload;
       this.before = payload;
-      document.title = this.partner.name;
+      document.title = `Mentor Hub | ${this.partner.name}`;
     },
     RESET_PARTNER_VALUE(fieldName: keyof Partner) {
       if (

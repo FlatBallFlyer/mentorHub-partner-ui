@@ -21,7 +21,6 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from 'vue';
 import { usePartnersStore } from '@/stores';
 import { storeToRefs } from 'pinia';
 import AdminCollections from '@/components/AdminCollections.vue';
@@ -30,9 +29,5 @@ import AdminEnumerators from '@/components/AdminEnumerators.vue';
 
 const store = usePartnersStore();
 const { config } = storeToRefs(store);
-
-onMounted(() => {
-    document.title = 'Configuration';
-});
 
 </script>
