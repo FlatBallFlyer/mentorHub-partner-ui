@@ -4,13 +4,7 @@
   </div>
 </template>
 
-<script>
+<script setup lang="ts">
 import PartnersList from "@/components/PartnersList.vue";
 
-export default {
-  components: {
-    PartnersList
-  },
-  displayName: "PartnersListViewComponent",
-}
 </script>

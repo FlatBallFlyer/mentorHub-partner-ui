@@ -4,6 +4,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import AddPartnerForm from "@/components/AddPartnerForm.vue";
+
 </script>
