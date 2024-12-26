@@ -1,6 +1,9 @@
 <template>
-  <div>
-    <h1>Add a Partner</h1>
-    <p>Hello, World!</p>
+  <div class="home">
+    <AddPartnerForm></AddPartnerForm>
   </div>
 </template>
+
+<script setup>
+import AddPartnerForm from "@/components/AddPartnerForm.vue";
+</script>

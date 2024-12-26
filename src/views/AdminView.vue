@@ -1,6 +1,10 @@
 <template>
-  <div>
-    <h1>Admin</h1>
-    <p>Hello, World!</p>
+  <div class="home">
+    <AdminInfo></AdminInfo>
   </div>
 </template>
+
+<script setup lang="ts">
+import AdminInfo from "../components/AdminInfo.vue";
+
+</script>

@@ -16,23 +16,32 @@ const router = createRouter({
       path: "/partner",
       name: "AddPartner",
       component: AddPartnerView,
+      meta: { title: "Mentor Hub | New Partner" },
     },
     {
       path: "/partner/:id",
       name: "EditPartner",
       component: EditPartnerView,
+      meta: { title: "Mentor Hub | Edit Partner" },
     },
     {
       path: "/partners",
       name: "ListPartners",
       component: PartnersView,
+      meta: { title: "Mentor Hub | Partners" },
     },
     {
       path: "/admin",
       name: "Admin",
       component: AdminView,
+      meta: { title: "Mentor Hub | Configuration" },
     },
   ]
 })
+
+router.beforeEach((to, from, next) => {
+  document.title = `${to.meta.title}`;
+  next();
+});
 
 export default router
