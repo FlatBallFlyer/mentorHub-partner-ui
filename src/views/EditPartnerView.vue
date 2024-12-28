@@ -4,13 +4,7 @@
   </div>
 </template>
 
-<script>
-// @ is an alias to /src
+<script setup lang="ts">
 import EditPartnerForm from '@/components/EditPartnerForm.vue'
 
-export default {
-  components: {
-    EditPartnerForm
-  },
-}
 </script>
